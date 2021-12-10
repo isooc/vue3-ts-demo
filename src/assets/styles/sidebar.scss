@@ -1,0 +1,37 @@
+#app {
+
+  .sidebar-container {
+    height: 100%;
+    background-color: #304156;
+
+    // menu未收起时样式
+    &-menu:not(.el-menu--collapse) {
+      width: 240px;
+    }
+
+    // 菜单收起时的样式调整
+    .el-menu--collapse {
+
+      // 隐藏submenu title
+      .submenu-title {
+        display: none;
+      }
+    }
+
+    .el-submenu {
+      .el-menu {
+        .el-menu-item {
+          background-color: #1f2d3d !important;
+
+          &:hover {
+            background-color: #001528 !important;
+          }
+        }
+      }
+    }
+
+    .el-menu {
+      border: none;
+    }
+  }
+}
