@@ -4,6 +4,7 @@ import router from './router';
 import store, { key } from './store';
 import installElementPlus from './plugins/element';
 import { ElMessageBox, ElMessage, ElNotification } from 'element-plus';
+import ElementPlus from 'element-plus';
 import 'normalize.css/normalize.css';
 import '@/assets/styles/index.scss';
 
@@ -13,7 +14,13 @@ import initSvgIcon from '@/icons/index';
 
 // 获取store里存储的size
 const size = store.state.app.size;
-app.use(store, key).use(router).use(initSvgIcon).use(installElementPlus, { size }).mount('#app');
+app
+  .use(store, key)
+  .use(router)
+  .use(initSvgIcon)
+  .use(installElementPlus, { size })
+  .use(ElementPlus)
+  .mount('#app');
 
 // vue实例上挂载属性类型声明
 declare module '@vue/runtime-core' {
