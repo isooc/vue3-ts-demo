@@ -35,11 +35,18 @@ export const menusList = [
     pid: 2,
   },
   {
-    // 外链路由
     id: 6,
-    path: 'https://www.baidu.com/',
-    title: '去百度',
-    icon: 'el-icon-s-promotion',
+    path: 'test',
+    title: '测试页面',
+    icon: 'el-icon-s-operation',
     pid: -1,
   },
+  // {
+  //   // 外链路由
+  //   id: 6,
+  //   path: 'https://www.baidu.com/',
+  //   title: '去百度',
+  //   icon: 'el-icon-s-promotion',
+  //   pid: -1,
+  // },
 ];
