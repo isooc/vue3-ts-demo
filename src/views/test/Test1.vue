@@ -74,64 +74,50 @@
   </div>
 </template>
 
-<script lang="ts">
-import { getCurrentInstance, defineComponent, reactive, ref, toRefs } from 'vue';
+<script setup lang="ts">
+import { getCurrentInstance, reactive, ref } from 'vue';
 
-export default defineComponent({
-  setup() {
-    const { proxy } = getCurrentInstance()!;
-    const formRef = ref();
-    const singleTable = ref();
-    const data = reactive({
-      formData: {
-        tableData: [
-          {
-            date: '2016-05-03',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-04',
-            name: 'Joy',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-        ],
-      },
-      formRules: {
-        date: [{ required: true, message: 'Please select date', trigger: 'change' }],
-        name: [{ required: true, message: 'Please input name', trigger: 'blur' }],
-        address: [{ required: true, message: 'Please input address', trigger: 'blur' }],
-      },
-    });
-    const copyRow = (row: any) => {
-      data.formData.tableData.push(Object.assign({}, row));
-    };
-    const delRow = (index: number, rows: any) => {
-      rows.splice(index, 1);
-    };
-    const onSubmit = () => {
-      formRef.value.validate((valid: boolean) => {
-        if (valid) {
-          proxy?.$message({
-            message: '保存成功！',
-            type: 'success',
-          });
-          console.log('submit', data.formData.tableData);
-        } else {
-          console.log('error submit!!');
-        }
-      });
-    };
-    return {
-      formRef,
-      singleTable,
-      ...toRefs(data),
-      copyRow,
-      delRow,
-      onSubmit,
-    };
-  },
+const { proxy } = getCurrentInstance()!;
+const formRef = ref();
+const singleTable = ref();
+const formData = reactive({
+  tableData: [
+    {
+      date: '2016-05-03',
+      name: 'Tom',
+      address: 'No. 189, Grove St, Los Angeles',
+    },
+    {
+      date: '2016-05-04',
+      name: 'Joy',
+      address: 'No. 189, Grove St, Los Angeles',
+    },
+  ],
 });
+const formRules = reactive({
+  date: [{ required: true, message: 'Please select date', trigger: 'change' }],
+  name: [{ required: true, message: 'Please input name', trigger: 'blur' }],
+  address: [{ required: true, message: 'Please input address', trigger: 'blur' }],
+});
+const copyRow = (row: any) => {
+  formData.tableData.push(Object.assign({}, row));
+};
+const delRow = (index: number, rows: any) => {
+  rows.splice(index, 1);
+};
+const onSubmit = () => {
+  formRef.value.validate((valid: boolean) => {
+    if (valid) {
+      proxy?.$message({
+        message: '保存成功！',
+        type: 'success',
+      });
+      console.log('submit', formData.tableData);
+    } else {
+      console.log('error submit!!');
+    }
+  });
+};
 </script>
 
 <style lang="scss" scoped>
