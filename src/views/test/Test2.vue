@@ -29,9 +29,9 @@
         </el-form-item>
         <el-form-item>
           <div class="query-btn">
-            <el-button type="primary">查询</el-button>
+            <el-button type="primary" @click="init">查询</el-button>
             <el-button @click="reset">重置</el-button>
-            <el-button type="primary" class="float-right">新增</el-button>
+            <el-button type="primary" class="float-right" @click="edit()">新增</el-button>
           </div>
         </el-form-item>
       </el-form>
@@ -71,8 +71,10 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref, toRef } from 'vue';
+import { onMounted, reactive, ref, getCurrentInstance } from 'vue';
 import DialogTest from './components/DialogTest.vue';
+
+const { proxy } = getCurrentInstance()!;
 
 const formRef = ref();
 const formData = reactive({
@@ -99,22 +101,46 @@ const state = reactive({
     { value: 'd', label: '邓恩' },
     { value: 'cc', label: '梅林' },
   ],
-  tableData: [
+  tableBaseData: [
     { id: 1, name: '克莱恩', age: '24', sexDec: '男', sex: 1, power: '占卜师' },
     { id: 2, name: '邓恩', age: '38', sexDec: '男', sex: 1, power: '不眠者' },
     { id: 3, name: '阿蒙', age: '1000+', sexDec: '未知', sex: 2, power: '偷盗者' },
   ],
+  tableData: [],
   dialogData: {},
 });
 
+const init = () => {
+  state.tableData = state.tableBaseData;
+};
 const edit = (value: tableObj) => {
   dialogVisible.value = true;
-  dialogId.value = value.id;
-  dialogTitle.value = '编辑';
-  state.dialogData = value;
+  if (value) {
+    dialogId.value = value.id;
+    dialogTitle.value = '编辑';
+    state.dialogData = Object.assign({}, value);
+  } else {
+    dialogTitle.value = '新增';
+    state.dialogData = {};
+  }
 };
 const deleteRow = (data: tableObj) => {
-  console.log('data', data);
+  proxy
+    ?.$confirm('你确实要删除吗?', '删除提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    })
+    .then(() => {
+      state.tableData = state.tableData.filter((el) => el.id !== data.id);
+      proxy?.$message({
+        message: '删除成功！',
+        type: 'success',
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 const closeDialog = () => {
   dialogVisible.value = false;
@@ -124,10 +150,11 @@ const reset = () => {
   formData.value = [];
   formData.age = '';
   formData.sex = null;
+  init();
 };
 
 onMounted(() => {
-  //
+  init();
 });
 </script>
 

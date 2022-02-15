@@ -5,7 +5,7 @@
         ref="testRef"
         :model="testData"
         :rules="testRules"
-        label-width="100"
+        label-width="80px"
         class="test-form"
       >
         <el-form-item label="姓名" prop="name">
@@ -45,8 +45,8 @@ const props = defineProps({
   dialogData: Object,
 });
 const emit = defineEmits(['closeDialog']);
-
 const { proxy } = getCurrentInstance()!;
+
 const testData = toRef(props, 'dialogData');
 const testRef = ref();
 const testRules = reactive({
