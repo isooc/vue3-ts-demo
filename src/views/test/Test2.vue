@@ -3,15 +3,9 @@
     <div class="header-query">
       <el-form class="form-demo" ref="formRef" :model="formData" :inline="true">
         <el-form-item label="自定义搜索">
-          <el-select
-            v-model="formData.value"
-            multiple
-            filterable
-            :filter-method="methodFilter"
-            placeholder="Select"
-          >
+          <el-select v-model="formData.value" multiple placeholder="Select">
             <el-option
-              v-for="item in list"
+              v-for="item in state.list"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -36,7 +30,7 @@
         <el-form-item>
           <div class="query-btn">
             <el-button type="primary">查询</el-button>
-            <el-button>重置</el-button>
+            <el-button @click="reset">重置</el-button>
             <el-button type="primary" class="float-right">新增</el-button>
           </div>
         </el-form-item>
@@ -44,13 +38,13 @@
     </div>
     <div class="main-table">
       <el-table
-        :data="tableData"
+        :data="state.tableData"
         style="width: 100%"
         :header-cell-style="{ 'background-color': '#D3E0F5' }"
       >
         <el-table-column prop="name" label="姓名" />
         <el-table-column prop="age" label="年龄" />
-        <el-table-column prop="sex" label="性别" />
+        <el-table-column prop="sexDec" label="性别" />
         <el-table-column prop="power" label="能力体系">
           <template #default="scope">
             {{ scope.row.power }}
@@ -64,11 +58,21 @@
         </el-table-column>
       </el-table>
     </div>
+    <div class="test-dialog">
+      <dialog-test
+        :id="dialogId"
+        :dialogTitle="dialogTitle"
+        :dialogVisible="dialogVisible"
+        :dialogData="state.dialogData"
+        @closeDialog="closeDialog"
+      ></dialog-test>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref, toRef } from 'vue';
+import DialogTest from './components/DialogTest.vue';
 
 const formRef = ref();
 const formData = reactive({
@@ -76,20 +80,6 @@ const formData = reactive({
   age: '',
   sex: null,
 });
-let state = reactive({
-  listBak: [
-    { value: 'k', label: '克莱恩' },
-    { value: 'd', label: '邓恩' },
-    { value: 'cc', label: '梅林' },
-  ],
-});
-
-interface listobj {
-  value: string | number;
-  label: string;
-  [propName: string]: any;
-}
-let list: listobj[] = [...state.listBak];
 
 interface tableObj {
   id?: number;
@@ -99,28 +89,41 @@ interface tableObj {
   power: string;
   [propName: string]: any;
 }
-let tableData: tableObj[] = [
-  { name: '克莱恩', age: '24', sex: '男', power: '占卜师' },
-  { name: '邓恩', age: '38', sex: '男', power: '不眠者' },
-  { name: '阿蒙', age: '1000+', sex: '未知', power: '偷盗者' },
-];
 
-const methodFilter = (value: string) => {
-  let arr = [...state.listBak];
-  if (value) {
-    list = arr.filter((el) => {
-      return el.value.includes(value) || el.label.includes(value);
-    });
-  } else {
-    list = arr;
-  }
-  console.log('list:', list);
-};
+const dialogTitle = ref('');
+const dialogVisible = ref(false);
+const dialogId = ref('');
+const state = reactive({
+  list: [
+    { value: 'k', label: '克莱恩' },
+    { value: 'd', label: '邓恩' },
+    { value: 'cc', label: '梅林' },
+  ],
+  tableData: [
+    { id: 1, name: '克莱恩', age: '24', sexDec: '男', sex: 1, power: '占卜师' },
+    { id: 2, name: '邓恩', age: '38', sexDec: '男', sex: 1, power: '不眠者' },
+    { id: 3, name: '阿蒙', age: '1000+', sexDec: '未知', sex: 2, power: '偷盗者' },
+  ],
+  dialogData: {},
+});
+
 const edit = (value: tableObj) => {
-  console.log('value', value);
+  dialogVisible.value = true;
+  dialogId.value = value.id;
+  dialogTitle.value = '编辑';
+  state.dialogData = value;
 };
 const deleteRow = (data: tableObj) => {
   console.log('data', data);
+};
+const closeDialog = () => {
+  dialogVisible.value = false;
+  state.dialogData = {};
+};
+const reset = () => {
+  formData.value = [];
+  formData.age = '';
+  formData.sex = null;
 };
 
 onMounted(() => {
