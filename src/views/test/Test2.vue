@@ -71,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref, getCurrentInstance } from 'vue';
+import { reactive, ref, getCurrentInstance, onMounted } from 'vue';
 import DialogTest from './components/DialogTest.vue';
 
 const { proxy } = getCurrentInstance()!;
@@ -94,7 +94,7 @@ interface tableObj {
 
 const dialogTitle = ref('');
 const dialogVisible = ref(false);
-const dialogId = ref('');
+let dialogId: any = '';
 const state = reactive({
   list: [
     { value: 'k', label: '克莱恩' },
@@ -106,17 +106,17 @@ const state = reactive({
     { id: 2, name: '邓恩', age: '38', sexDec: '男', sex: 1, power: '不眠者' },
     { id: 3, name: '阿蒙', age: '1000+', sexDec: '未知', sex: 2, power: '偷盗者' },
   ],
-  tableData: [],
+  tableData: [] as tableObj[],
   dialogData: {},
 });
 
 const init = () => {
   state.tableData = state.tableBaseData;
 };
-const edit = (value: tableObj) => {
+const edit = (value?: tableObj) => {
   dialogVisible.value = true;
   if (value) {
-    dialogId.value = value.id;
+    dialogId = value.id;
     dialogTitle.value = '编辑';
     state.dialogData = Object.assign({}, value);
   } else {
@@ -124,7 +124,7 @@ const edit = (value: tableObj) => {
     state.dialogData = {};
   }
 };
-const deleteRow = (data: tableObj) => {
+const deleteRow = (data: tableObj, index: number) => {
   proxy
     ?.$confirm('你确实要删除吗?', '删除提示', {
       confirmButtonText: '确定',
@@ -132,7 +132,7 @@ const deleteRow = (data: tableObj) => {
       type: 'warning',
     })
     .then(() => {
-      state.tableData = state.tableData.filter((el) => el.id !== data.id);
+      state.tableData = state.tableBaseData.filter((el: tableObj) => el.id !== data.id);
       proxy?.$message({
         message: '删除成功！',
         type: 'success',

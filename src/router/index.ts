@@ -89,6 +89,21 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  {
+    path: '/board',
+    component: Layout,
+    redirect: '/board/board',
+    children: [
+      {
+        path: 'board',
+        name: 'board',
+        component: () => import('@/views/board/Board.vue'),
+        meta: {
+          title: '看板',
+        },
+      },
+    ],
+  },
 ];
 export const constantRoutes: Array<RouteRecordRaw> = [
   {

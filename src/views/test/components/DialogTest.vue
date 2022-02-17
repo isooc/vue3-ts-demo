@@ -47,7 +47,7 @@ const props = defineProps({
 const emit = defineEmits(['closeDialog']);
 const { proxy } = getCurrentInstance()!;
 
-const testData = toRef(props, 'dialogData');
+const testData: any = toRef(props, 'dialogData');
 const testRef = ref();
 const testRules = reactive({
   name: [

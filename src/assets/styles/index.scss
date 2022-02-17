@@ -35,3 +35,27 @@ a:hover {
 .float-right {
   float: right;
 }
+
+ul {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.row-spacer {
+  display: flex;
+  text-align: center;
+  > div {
+    flex: 1;
+    &:not(:last-child) {
+      border-right: 1px solid #ccc;
+    }
+    .label {
+      color: #999;
+      font-size: 12px;
+    }
+    .value {
+      
+    }
+  }
+} 

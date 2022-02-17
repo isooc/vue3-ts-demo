@@ -55,6 +55,13 @@ export const menusList = [
     icon: 'el-icon-s-operation',
     pid: 6,
   },
+  {
+    id: 9,
+    icon: 'el-icon-document',
+    path: 'board',
+    title: '看板',
+    pid: -1,
+  },
   // {
   //   // 外链路由
   //   id: 6,
