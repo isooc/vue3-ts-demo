@@ -43,32 +43,35 @@
     </el-row>
     <el-row :gutter="20" class="table-card">
       <el-col :span="8">
-        <el-card class="box-card">
-          <template #header>
-            <div class="card-header">
-              <span>进度预览</span>
-            </div>
-          </template>
-          <div class="card-body">
-            <div class="table-header row-spacer">
-              <div>
-                <div class="label">总工程量</div>
-                <div class="value">15000.00</div>
-              </div>
-              <div>
-                <div class="label">材料预计总额(元)</div>
-                <div class="value">15000.00</div>
-              </div>
-              <div>
-                <div class="label">材料实际总额(元)</div>
-                <div class="value">18000.00</div>
-              </div>
-            </div>
-          </div>
-        </el-card>
+        <table-card
+          :title="quantitiesTableData.title"
+          :headers="quantitiesTableData.headers"
+          :columns="quantitiesTableData.columns"
+          :tableList="quantitiesTableData.tableList"
+          :total="quantitiesTableData.total"
+          :page="quantitiesTableData.page"
+        ></table-card>
       </el-col>
-      <el-col :span="8">劳务款</el-col>
-      <el-col :span="8">任务数</el-col>
+      <el-col :span="8">
+        <table-card
+          :title="laborTableData.title"
+          :headers="laborTableData.headers"
+          :columns="laborTableData.columns"
+          :tableList="laborTableData.tableList"
+          :total="laborTableData.total"
+          :page="laborTableData.page"
+        ></table-card>
+      </el-col>
+      <el-col :span="8">
+        <table-card
+          :title="taskTableData.title"
+          :headers="taskTableData.headers"
+          :columns="taskTableData.columns"
+          :tableList="taskTableData.tableList"
+          :total="taskTableData.total"
+          :page="taskTableData.page"
+        ></table-card>
+      </el-col>
     </el-row>
   </div>
 </template>
@@ -79,6 +82,112 @@ import ProgressCard from './common/ProgressCard.vue';
 import RiskCard from './common/RiskCard.vue';
 import PersonnelCard from './common/PersonnelCard.vue';
 import SafeCard from './common/SafeCard.vue';
+import TableCard from './common/TableCard.vue';
+import { ref, reactive } from '@vue/reactivity';
+
+const quantitiesTableData = reactive({
+  title: ref('工程量清单预览'),
+  headers: reactive([
+    { label: '总工程量', value: '15000.00' },
+    { label: '材料预计总额(元)', value: '150000.00' },
+    { label: '材料实际总额(元)', value: '180000.00' },
+  ]),
+  columns: reactive([
+    { key: 'name', title: '材料名称' },
+    { key: 'quantities', title: '工程量' },
+    { key: 'realPrice', title: '实际单价' },
+    { key: 'totalPrice', title: '实际合计' },
+    { key: 'proportion', title: '占比' },
+  ]),
+  tableList: reactive([
+    {
+      name: '材料A',
+      quantities: '35000',
+      realPrice: '1',
+      totalPrice: '35000',
+      proportion: '35%',
+    },
+    {
+      name: '材料B',
+      quantities: '25000',
+      realPrice: '1',
+      totalPrice: '35000',
+      proportion: '25%',
+    },
+    {
+      name: '材料C',
+      quantities: '20000',
+      realPrice: '1',
+      totalPrice: '35000',
+      proportion: '20%',
+    },
+    {
+      name: '材料D',
+      quantities: '15000',
+      realPrice: '1',
+      totalPrice: '35000',
+      proportion: '15%',
+    },
+  ]),
+  total: ref(4),
+  page: reactive({
+    pageNow: ref(1),
+    pageSize: ref(5),
+  }),
+});
+
+const laborTableData = reactive({
+  title: ref('劳务款预览'),
+  headers: reactive([
+    { label: '劳务款总额', value: '200000.00' },
+    { label: '工资总额', value: '180000.00' },
+  ]),
+  columns: reactive([
+    { key: 'team', title: '施工队' },
+    { key: 'total', title: '劳务款总额' },
+    { key: 'wageTotal', title: '工资总额' },
+    { key: 'proportion', title: '占比' },
+  ]),
+  tableList: reactive([
+    { team: '张三', total: '35000', wageTotal: '35000', proportion: '35%' },
+    { team: '李四', total: '25000', wageTotal: '25000', proportion: '25%' },
+    { team: '王五', total: '20000', wageTotal: '20000', proportion: '20%' },
+    { team: '赵六', total: '15000', wageTotal: '15000', proportion: '15%' },
+  ]),
+  total: ref(4),
+  page: reactive({
+    pageNow: ref(1),
+    pageSize: ref(5),
+  }),
+});
+
+const taskTableData = reactive({
+  title: ref('任务数'),
+  headers: reactive([
+    { label: '任务总数(个)', value: '50' },
+    { label: '需完成工程量', value: '5000' },
+    { label: '实际完成工程量', value: '5000' },
+  ]),
+  columns: reactive([
+    { key: 'team', title: '施工队' },
+    { key: 'taskNum', title: '任务数' },
+    { key: 'notDown', title: '需完成' },
+    { key: 'down', title: '已完成' },
+    { key: 'proportion', title: '占比' },
+  ]),
+  tableList: reactive([
+    { team: '张三', taskNum: '35000', notDown: '35000', down: '35000', proportion: '35%' },
+    { team: '李四', taskNum: '25000', notDown: '25000', down: '25000', proportion: '25%' },
+    { team: '王五', taskNum: '20000', notDown: '20000', down: '20000', proportion: '20%' },
+    { team: '赵六', taskNum: '15000', notDown: '15000', down: '15000', proportion: '15%' },
+    { team: '姚七', taskNum: '5000', notDown: '5000', down: '5000', proportion: '5%' },
+  ]),
+  total: ref(5),
+  page: reactive({
+    pageNow: ref(1),
+    pageSize: ref(5),
+  }),
+});
 </script>
 
 <style lang="scss" scoped>

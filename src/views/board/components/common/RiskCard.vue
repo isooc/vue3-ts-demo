@@ -8,8 +8,22 @@
       </template>
       <div class="card-body">
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-          <el-tab-pane label="Safe" name="safe"></el-tab-pane>
-          <el-tab-pane label="Progress" name="progress"></el-tab-pane>
+          <el-tab-pane name="safe">
+            <template #label>
+              <div class="tab-label">
+                <div class="label">安全问题</div>
+                <div class="value">3</div>
+              </div>
+            </template>
+          </el-tab-pane>
+          <el-tab-pane name="progress">
+            <template #label>
+              <div class="tab-label">
+                <div class="label">进度问题</div>
+                <div class="value">5</div>
+              </div>
+            </template>
+          </el-tab-pane>
         </el-tabs>
         <ul>
           <li v-for="(item, index) in list" :key="index">
@@ -46,6 +60,21 @@ const list = reactive([
     & > li {
       padding-bottom: 10px;
     }
+  }
+}
+.tab-label {
+  text-align: center;
+  > div {
+    height: 18px;
+    line-height: 18px;
+  }
+  .label {
+    color: #999;
+    font-size: 12px;
+  }
+  .value {
+    font-size: 16px;
+    color: #303133;
   }
 }
 </style>
