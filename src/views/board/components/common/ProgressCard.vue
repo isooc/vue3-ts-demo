@@ -21,7 +21,14 @@
 
 <script setup lang="ts">
 import MyEcharts from '@/components/MyEcharts.vue';
-import { reactive, ref } from '@vue/reactivity';
+import { reactive, defineProps } from 'vue';
+
+defineProps({
+  chartId: {
+    type: String,
+    default: '',
+  },
+});
 
 const dateValue = String(new Date().getFullYear());
 
@@ -60,7 +67,7 @@ const chartOptions = reactive({
     },
   ],
 });
-const chartId = ref('progress-echart');
+// const chartId = ref('progress-echart');
 </script>
 
 <style lang="scss" scoped>

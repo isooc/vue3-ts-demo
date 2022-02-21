@@ -27,21 +27,30 @@
         </el-tabs>
         <ul>
           <li v-for="(item, index) in list" :key="index">
-            <span>{{ item.label }}：</span>
-            <span>{{ item.value }}</span>
+            <a @click="openDialog(item)">
+              <span>{{ item.label }}：</span>
+              <span>{{ item.value }}</span>
+            </a>
           </li>
         </ul>
       </div>
     </el-card>
+    <risk-dialog
+      :dialogTitle="dialogData.dialogTitle"
+      :dialogVisible="dialogData.dialogVisible"
+      @closeDialog="closeDialog"
+    ></risk-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
+import RiskDialog from './RiskDialog.vue';
+import { ObjectType } from '@/utils/obj-type';
 
 const activeName = ref('safe');
 const handleClick = (tab: string) => {
-  console.log('tab', tab);
+  // console.log('tab', tab);
 };
 
 const list = reactive([
@@ -50,6 +59,20 @@ const list = reactive([
   { label: '问题三', value: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXX' },
   { label: '问题四', value: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXX' },
 ]);
+
+const openDialog = (item: ObjectType) => {
+  dialogData.dialogVisible = true;
+  dialogData.propData = item;
+};
+
+const dialogData = reactive({
+  dialogTitle: '安全预警',
+  dialogVisible: false,
+  propData: {},
+});
+const closeDialog = () => {
+  dialogData.dialogVisible = false;
+};
 </script>
 
 <style lang="scss" scoped>

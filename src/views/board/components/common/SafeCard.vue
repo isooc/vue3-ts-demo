@@ -35,7 +35,14 @@
 
 <script setup lang="ts">
 import MyEcharts from '@/components/MyEcharts.vue';
-import { reactive, ref } from 'vue';
+import { reactive, defineProps } from 'vue';
+
+defineProps({
+  chartId: {
+    type: String,
+    default: '',
+  },
+});
 
 const chartOptions = reactive({
   tooltip: {
@@ -62,7 +69,6 @@ const chartOptions = reactive({
     },
   ],
 });
-const chartId = ref('safe-echart');
 </script>
 
 <style lang="scss" scoped>

@@ -30,7 +30,25 @@
       </el-col>
     </el-row>
     <el-row :gutter="20" class="progress-risk">
-      <el-col :span="12"><progress-card></progress-card></el-col>
+      <el-col :span="12">
+        <progress-card :chartId="chartId"></progress-card>
+        <!-- <el-card class="box-card">
+          <template #header>
+            <div class="card-header">
+              <span>进度预览</span>
+            </div>
+          </template>
+          <div class="card-body">
+            <el-date-picker
+              v-model="dateValue"
+              type="year"
+              class="date-picker"
+              placeholder="请选择"
+            ></el-date-picker>
+            <my-echarts :chartOptions="chartOptions" :chartId="chartId"></my-echarts>
+          </div>
+        </el-card> -->
+      </el-col>
       <el-col :span="12"><risk-card></risk-card></el-col>
     </el-row>
     <el-row :gutter="20" class="personnel-safe">
@@ -38,7 +56,37 @@
         <personnel-card></personnel-card>
       </el-col>
       <el-col :span="12">
-        <safe-card></safe-card>
+        <safe-card :chartId="chartSaveId"></safe-card>
+        <!-- <el-card class="box-card">
+          <template #header>
+            <div class="card-header">
+              <span>安全预览</span>
+            </div>
+          </template>
+          <div class="card-body">
+            <div class="body-header">
+              <div>
+                <span class="header-value">35</span>
+                <span class="header-label">在场实名人数</span>
+              </div>
+              <div>
+                <span class="header-value">30</span>
+                <span class="header-label">在场安全教育及技术交底人数</span>
+              </div>
+              <div>
+                <span class="header-value">20</span>
+                <span class="header-label">在场保险人数</span>
+              </div>
+            </div>
+            <div class="body-chart">
+              <my-echarts
+                :chartOptions="chartSaveOptions"
+                :chartId="chartSaveId"
+                style="height: 150px"
+              ></my-echarts>
+            </div>
+          </div>
+        </el-card> -->
       </el-col>
     </el-row>
     <el-row :gutter="20" class="table-card">
@@ -79,11 +127,16 @@
 <script setup lang="ts">
 // import { ref } from 'vue';
 import ProgressCard from './common/ProgressCard.vue';
+import MyEcharts from '@/components/MyEcharts.vue';
 import RiskCard from './common/RiskCard.vue';
 import PersonnelCard from './common/PersonnelCard.vue';
 import SafeCard from './common/SafeCard.vue';
 import TableCard from './common/TableCard.vue';
 import { ref, reactive } from '@vue/reactivity';
+
+const chartId = ref('totalProgressChart');
+
+const chartSaveId = ref('totalSafeChart');
 
 const quantitiesTableData = reactive({
   title: ref('工程量清单预览'),

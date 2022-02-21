@@ -7,13 +7,13 @@
       </div>
       <div class="tabs">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="总体预览" name="total">
+          <el-tab-pane label="总体预览" name="total" :lazy="true">
             <total></total>
           </el-tab-pane>
           <el-tab-pane label="进度预览" name="progress">
             <Progress></Progress>
           </el-tab-pane>
-          <el-tab-pane label="施工队预览" name="construction">
+          <el-tab-pane label="施工队预览" name="construction" :lazy="true">
             <construction></construction>
           </el-tab-pane>
         </el-tabs>
@@ -30,7 +30,7 @@ import Construction from './components/Construction.vue';
 
 const activeName = ref('total');
 const handleClick = (tab: any) => {
-  console.log(tab.props.name);
+  // console.log(tab.props.name);
 };
 </script>
 
