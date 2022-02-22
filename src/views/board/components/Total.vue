@@ -31,23 +31,7 @@
     </el-row>
     <el-row :gutter="20" class="progress-risk">
       <el-col :span="12">
-        <progress-card :chartId="chartId"></progress-card>
-        <!-- <el-card class="box-card">
-          <template #header>
-            <div class="card-header">
-              <span>进度预览</span>
-            </div>
-          </template>
-          <div class="card-body">
-            <el-date-picker
-              v-model="dateValue"
-              type="year"
-              class="date-picker"
-              placeholder="请选择"
-            ></el-date-picker>
-            <my-echarts :chartOptions="chartOptions" :chartId="chartId"></my-echarts>
-          </div>
-        </el-card> -->
+        <progress-card :chartData="chartProgressData"></progress-card>
       </el-col>
       <el-col :span="12"><risk-card></risk-card></el-col>
     </el-row>
@@ -56,87 +40,53 @@
         <personnel-card></personnel-card>
       </el-col>
       <el-col :span="12">
-        <safe-card :chartId="chartSaveId"></safe-card>
-        <!-- <el-card class="box-card">
-          <template #header>
-            <div class="card-header">
-              <span>安全预览</span>
-            </div>
-          </template>
-          <div class="card-body">
-            <div class="body-header">
-              <div>
-                <span class="header-value">35</span>
-                <span class="header-label">在场实名人数</span>
-              </div>
-              <div>
-                <span class="header-value">30</span>
-                <span class="header-label">在场安全教育及技术交底人数</span>
-              </div>
-              <div>
-                <span class="header-value">20</span>
-                <span class="header-label">在场保险人数</span>
-              </div>
-            </div>
-            <div class="body-chart">
-              <my-echarts
-                :chartOptions="chartSaveOptions"
-                :chartId="chartSaveId"
-                style="height: 150px"
-              ></my-echarts>
-            </div>
-          </div>
-        </el-card> -->
+        <safe-card :chartData="chartSafeData" :chartStyle="safeChartStyle"></safe-card>
       </el-col>
     </el-row>
     <el-row :gutter="20" class="table-card">
       <el-col :span="8">
-        <table-card
-          :title="quantitiesTableData.title"
-          :headers="quantitiesTableData.headers"
-          :columns="quantitiesTableData.columns"
-          :tableList="quantitiesTableData.tableList"
-          :total="quantitiesTableData.total"
-          :page="quantitiesTableData.page"
-        ></table-card>
+        <table-card :tableCardData="quantitiesTableData"></table-card>
       </el-col>
       <el-col :span="8">
-        <table-card
-          :title="laborTableData.title"
-          :headers="laborTableData.headers"
-          :columns="laborTableData.columns"
-          :tableList="laborTableData.tableList"
-          :total="laborTableData.total"
-          :page="laborTableData.page"
-        ></table-card>
+        <table-card :tableCardData="laborTableData"></table-card>
       </el-col>
       <el-col :span="8">
-        <table-card
-          :title="taskTableData.title"
-          :headers="taskTableData.headers"
-          :columns="taskTableData.columns"
-          :tableList="taskTableData.tableList"
-          :total="taskTableData.total"
-          :page="taskTableData.page"
-        ></table-card>
+        <table-card :tableCardData="taskTableData"></table-card>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script setup lang="ts">
-// import { ref } from 'vue';
 import ProgressCard from './common/ProgressCard.vue';
 import MyEcharts from '@/components/MyEcharts.vue';
 import RiskCard from './common/RiskCard.vue';
 import PersonnelCard from './common/PersonnelCard.vue';
 import SafeCard from './common/SafeCard.vue';
 import TableCard from './common/TableCard.vue';
-import { ref, reactive } from '@vue/reactivity';
+import { ref, reactive } from 'vue';
 
-const chartId = ref('totalProgressChart');
+const chartProgressData = reactive({
+  chartId: ref('totalProgressChart'),
+  xData: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+  yData: {
+    estimated: [220, 182, 191, 234, 290, 330, 310, 280, 268, 210, 190, 200],
+    actual: [120, 132, 101, 134, 90, 230, 210, 180, 157, 149, 129, 90],
+  },
+});
 
-const chartSaveId = ref('totalSafeChart');
+const chartSafeData = reactive({
+  chartId: ref('totalSafeChart'),
+  xData: ['实名人数', '安全教育及技术交底人数', '保险人数'],
+  yData: {
+    estimated: [220, 182, 191, 234, 290, 330, 310, 280, 268, 210, 190, 200],
+    actual: [120, 132, 101, 134, 90, 230, 210, 180, 157, 149, 129, 90],
+  },
+});
+
+const safeChartStyle = reactive({
+  height: '150px',
+});
 
 const quantitiesTableData = reactive({
   title: ref('工程量清单预览'),
@@ -260,13 +210,6 @@ const taskTableData = reactive({
           flex: 2;
         }
       }
-    }
-  }
-
-  .table-card {
-    &:deep(.el-card__body) {
-      // vue3 deep写法
-      padding: 20px 0 !important;
     }
   }
 }

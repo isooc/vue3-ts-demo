@@ -26,7 +26,7 @@
             :header-cell-style="headerStyle"
             :header-row-style="{ height: '32px' }"
             :row-style="{ height: '32px' }"
-            :cell-style="{ 'font-size': '12px', padding: '0px' }"
+            :cell-style="setCellStyle"
             @selection-change="handleSelectionChange"
             @cell-click="cellClcik"
             @row-click="rowClick"
@@ -293,7 +293,7 @@ const props = defineProps({
     default: false,
   },
   errorRows: {
-    type: Array,
+    type: Array as any,
     default: () => [],
   },
 });
@@ -379,6 +379,30 @@ const handleSelectionChange = (val: any) => {
 // 单元格click
 const cellClcik = (row: any, column: any, cell: any, event: any) => {
   proxy?.$emit('cellClcik', row, column, cell, event);
+};
+// 单元格样式标红
+const setCellStyle = ({ row, column, rowIndex, columnIndex }) => {
+  let commonStyle = { 'font-size': '12px', padding: '0px' };
+  if (!props.ownCellStyle) {
+    return commonStyle;
+  } else {
+    let begin = [252, 0, 255];
+    let end = [0, 219, 222];
+    /* 
+      eg: this.errorRows = [{indexs: [0, 3, 4]}, {indexs: [5, 8]}]
+    */
+    for (let i = 0; i < props.errorRows.length; i++) {
+      let r = begin[0] - ((begin[0] - end[0]) * i) / props.errorRows.length;
+      let g = begin[1] - (begin[1] - end[1] * i) / props.errorRows.length;
+      let b = begin[2] - (begin[2] - end[2] * i) / props.errorRows.length;
+      let rgba = `rgba(${r}, ${g}, ${b}, .2)`;
+      if (props.errorRows[i].indexs.includes(rowIndex)) {
+        let obj = { 'background-color': `${rgba}`, ...commonStyle };
+        return obj;
+      }
+    }
+    return commonStyle;
+  }
 };
 // 合并行
 const objectSpanMethod = ({ row, column, rowIndex, columnIndex }) => {

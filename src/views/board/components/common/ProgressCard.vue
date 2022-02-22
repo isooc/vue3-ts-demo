@@ -13,7 +13,11 @@
           class="date-picker"
           placeholder="请选择"
         ></el-date-picker>
-        <my-echarts :chartOptions="chartOptions" :chartId="chartId"></my-echarts>
+        <my-echarts
+          :chartOptions="chartOptions"
+          :chartId="chartData.chartId"
+          :style="chartStyle"
+        ></my-echarts>
       </div>
     </el-card>
   </div>
@@ -23,10 +27,22 @@
 import MyEcharts from '@/components/MyEcharts.vue';
 import { reactive, defineProps } from 'vue';
 
-defineProps({
-  chartId: {
-    type: String,
-    default: '',
+const props = defineProps({
+  chartData: {
+    type: Object,
+    default: () => {
+      return {
+        chartId: '',
+        xData: [] as string[],
+        yData: {},
+      };
+    },
+  },
+  chartStyle: {
+    type: Object,
+    defaylt: () => {
+      return { height: '250px' };
+    },
   },
 });
 
@@ -47,7 +63,7 @@ const chartOptions = reactive({
   xAxis: {
     type: 'category',
     boundaryGap: false,
-    data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+    data: props.chartData.xData,
   },
   yAxis: {
     type: 'value',
@@ -57,13 +73,13 @@ const chartOptions = reactive({
       name: '实际进度',
       type: 'line',
       stack: 'Total',
-      data: [120, 132, 101, 134, 90, 230, 210, 180, 157, 149, 129, 90],
+      data: props.chartData.yData.actual,
     },
     {
       name: '预计进度',
       type: 'line',
       stack: 'Total',
-      data: [220, 182, 191, 234, 290, 330, 310, 280, 268, 210, 190, 200],
+      data: props.chartData.yData.estimated,
     },
   ],
 });

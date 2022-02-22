@@ -3,23 +3,27 @@
     <el-card class="box-card">
       <template #header>
         <div class="card-header">
-          <span>{{ title }}</span>
+          <span>{{ tableCardData.title }}</span>
+          <slot v-if="tableCardData.titleSlot" name="titleSlot" class="title-slot"></slot>
         </div>
       </template>
       <div class="card-body">
-        <div class="table-header row-spacer">
-          <div v-for="(item, index) in headers" :key="index">
+        <div v-if="!tableCardData.headerSlot" class="table-header row-spacer">
+          <div v-for="(item, index) in tableCardData.headers" :key="index">
             <div class="label">{{ item.label }}</div>
             <div class="value">{{ item.value }}</div>
           </div>
         </div>
+        <div v-if="tableCardData.headerSlot">
+          <slot name="headerSlot"></slot>
+        </div>
         <div class="table-body">
           <base-table
-            :list="tableList"
-            :columns="columns"
-            :total="total"
-            :page="page.pageNow"
-            :rows="page.pageSize"
+            :list="tableCardData.tableList"
+            :columns="tableCardData.columns"
+            :total="tableCardData.total"
+            :page="tableCardData.page.pageNow"
+            :rows="tableCardData.page.pageSize"
           ></base-table>
         </div>
       </div>
@@ -32,33 +36,37 @@ import { defineProps } from 'vue';
 import BaseTable from '@/components/BaseTable.vue';
 
 defineProps({
-  title: {
-    type: String,
-    default: '',
-  },
-  headers: {
-    type: Array as any,
-    default: () => [],
-  },
-  tableList: {
-    type: Array as any,
-    default: () => [],
-  },
-  columns: {
-    type: Array as any,
-    default: () => [],
-  },
-  total: {
-    type: Number,
-    default: 0,
-  },
-  page: {
-    type: Object,
+  tableCardData: {
+    type: Object as any,
+    default: () => {
+      return {
+        title: '',
+        headers: [],
+        tableList: [],
+        columns: [],
+        total: 0,
+        page: {},
+        titleSlot: false,
+        headerSlot: false,
+      };
+    },
   },
 });
 </script>
 
 <style lang="scss" scoped>
+:deep(.el-card__body) {
+  // vue3 deep写法
+  padding: 20px 0 !important;
+}
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .title-slot {
+  }
+}
+
 .table-body {
   padding: 0 20px;
 }

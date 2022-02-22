@@ -24,8 +24,8 @@
         <div class="body-chart">
           <my-echarts
             :chartOptions="chartOptions"
-            :chartId="chartId"
-            style="height: 150px"
+            :chartId="chartData.chartId"
+            :style="chartStyle"
           ></my-echarts>
         </div>
       </div>
@@ -37,10 +37,22 @@
 import MyEcharts from '@/components/MyEcharts.vue';
 import { reactive, defineProps } from 'vue';
 
-defineProps({
-  chartId: {
-    type: String,
-    default: '',
+const props = defineProps({
+  chartData: {
+    type: Object,
+    default: () => {
+      return {
+        chartId: '',
+        xData: [] as string[],
+        yData: {},
+      };
+    },
+  },
+  chartStyle: {
+    type: Object,
+    defaylt: () => {
+      return { height: '250px' };
+    },
   },
 });
 
@@ -56,7 +68,7 @@ const chartOptions = reactive({
   },
   xAxis: {
     type: 'category',
-    data: ['实名人数', '安全教育及技术交底人数', '保险人数'],
+    data: props.chartData.xData,
   },
   yAxis: {
     type: 'value',
