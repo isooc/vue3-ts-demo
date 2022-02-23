@@ -44,7 +44,7 @@ const props = defineProps({
       return {
         chartId: '',
         xData: [] as string[],
-        yData: {},
+        yData: [] as number[],
       };
     },
   },
@@ -77,7 +77,7 @@ const chartOptions = reactive({
     {
       type: 'bar',
       barWidth: '10%',
-      data: [35, 30, 20],
+      data: props.chartData.yData,
     },
   ],
 });

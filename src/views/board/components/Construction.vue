@@ -35,10 +35,7 @@ const chartProgressData = reactive({
 const chartSafeData = reactive({
   chartId: ref('constructionSaveChart'),
   xData: ['实名人数', '安全教育及技术交底人数', '保险人数'],
-  yData: {
-    estimated: [220, 182, 191, 234, 290, 330, 310, 280, 268, 210, 190, 200],
-    actual: [120, 132, 101, 134, 90, 230, 210, 180, 157, 149, 129, 90],
-  },
+  yData: [35, 30, 20],
 });
 const safeChartStyle = reactive({
   height: '220px',

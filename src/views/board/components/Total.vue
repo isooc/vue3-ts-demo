@@ -78,10 +78,7 @@ const chartProgressData = reactive({
 const chartSafeData = reactive({
   chartId: ref('totalSafeChart'),
   xData: ['实名人数', '安全教育及技术交底人数', '保险人数'],
-  yData: {
-    estimated: [220, 182, 191, 234, 290, 330, 310, 280, 268, 210, 190, 200],
-    actual: [120, 132, 101, 134, 90, 230, 210, 180, 157, 149, 129, 90],
-  },
+  yData: [35, 30, 20],
 });
 
 const safeChartStyle = reactive({
@@ -146,10 +143,8 @@ const laborTableData = reactive({
     { label: '工资总额', value: '180000.00' },
   ]),
   columns: reactive([
-    { key: 'team', title: '施工队' },
-    { key: 'total', title: '劳务款总额' },
-    { key: 'wageTotal', title: '工资总额' },
-    { key: 'proportion', title: '占比' },
+    { label: '劳务款总额', value: '200000.00' },
+    { label: '工资总额', value: '180000.00' },
   ]),
   tableList: reactive([
     { team: '张三', total: '35000', wageTotal: '35000', proportion: '35%' },
