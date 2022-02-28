@@ -24,7 +24,11 @@
             :total="tableCardData.total"
             :page="tableCardData.page.pageNow"
             :rows="tableCardData.page.pageSize"
-          ></base-table>
+          >
+            <template #proportion="{ scope }">
+              <el-progress :percentage="scope.row.proportion" />
+            </template>
+          </base-table>
         </div>
       </div>
     </el-card>

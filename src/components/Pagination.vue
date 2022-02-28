@@ -7,6 +7,7 @@
       :pager-count="pagerCount"
       :layout="layout"
       :total="total"
+      :page-sizes="pageSizes"
       v-bind="$attrs"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -81,7 +82,7 @@ const pageSize = computed({
 });
 
 const handleSizeChange = (val: number) => {
-  proxy?.$emit('pagination', { page: currentPage, limit: val });
+  proxy?.$emit('pagination', { page: currentPage.value, limit: val });
 };
 const handleCurrentChange = (val: number) => {
   proxy?.$emit('pagination', { page: val, limit: pageSize.value });

@@ -82,8 +82,9 @@
       <div class="pagination">
         <pagination
           :total="areaData.length"
-          v-model:page="currentPage"
-          v-model:limit="pageSizes"
+          v-model:page="pageObj.page"
+          v-model:limit="pageObj.rows"
+          :pageSizes="pageObj.pageSizes"
           :auto-scroll="false"
           @pagination="getList"
         ></pagination>
@@ -93,21 +94,14 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, getCurrentInstance, computed, defineProps } from 'vue';
+import { reactive } from 'vue';
 import Pagination from '@/components/Pagination.vue';
 
-const props = defineProps({
-  page: {
-    type: Number,
-    default: 1,
-  },
-  rows: {
-    type: Number,
-    default: 5,
-  },
+const pageObj = reactive({
+  page: 1,
+  rows: 5,
+  pageSizes: [5, 10],
 });
-
-const { proxy } = getCurrentInstance()!;
 
 const systemList = reactive([
   { name: '自动喷淋系统', quantities: '1000/10000', expectProgress: '10%', realProgress: '10%' },
@@ -266,25 +260,9 @@ const areaData = reactive([
 ]);
 
 // 页码变化触发获取数据
-const getList = (obj: any) => {
-  proxy?.$emit('getList', obj);
+const getList = (obj: { page: number; limit: number }) => {
+  console.log('obj', obj);
 };
-const currentPage = computed({
-  get: () => {
-    return props.page;
-  },
-  set: (val) => {
-    proxy?.$emit('update:page', val);
-  },
-});
-const pageSizes = computed({
-  get: () => {
-    return props.rows;
-  },
-  set: (val) => {
-    proxy?.$emit('update:rows', val);
-  },
-});
 </script>
 
 <style lang="scss" scoped>
