@@ -2,7 +2,9 @@
   <div>
     <div class="logo-container">
       <router-link to="/home">
-        <div class="logo-icon" :class="{ 'is-collapse': isCollapse }"></div>
+        <div class="logo-icon" :class="{ 'is-collapse': isCollapse }">
+          <!-- <i class="el-icon-s-home"></i> -->
+        </div>
       </router-link>
     </div>
     <el-menu
@@ -62,14 +64,22 @@ export default defineComponent({
 <style lang="scss" scoped>
 .logo-container {
   width: 100%;
-  height: 50px;
+  // height: 50px;
   .logo-icon {
     width: 90%;
     margin: 0 auto;
-    height: 50px;
+    padding: 0 20px;
+    // height: 50px;
+    // line-height: 50px;
+    // color: #909399;
+    // i {
+    //   margin-right: 16px;
+    //   margin-left: 5px;
+    //   vertical-align: middle;
+    // }
   }
   .is-collapse {
-    height: 50px;
+    // height: 50px;
     width: 100%;
   }
 }

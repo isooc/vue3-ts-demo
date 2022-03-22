@@ -69,14 +69,37 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
   {
     path: '/test',
     component: Layout,
-    redirect: '/test/test',
+    redirect: '/test/test1',
     children: [
       {
-        path: 'test',
-        name: 'test',
-        component: () => import('@/views/test/Test.vue'),
+        path: 'test1',
+        name: 'Test1',
+        component: () => import('@/views/test/Test1.vue'),
         meta: {
-          title: '测试页面',
+          title: '测试页面1',
+        },
+      },
+      {
+        path: 'test2',
+        name: 'Test2',
+        component: () => import('@/views/test/Test2.vue'),
+        meta: {
+          title: '测试页面2',
+        },
+      },
+    ],
+  },
+  {
+    path: '/board',
+    component: Layout,
+    redirect: '/board/board',
+    children: [
+      {
+        path: 'board',
+        name: 'board',
+        component: () => import('@/views/board/Board.vue'),
+        meta: {
+          title: '看板',
         },
       },
     ],

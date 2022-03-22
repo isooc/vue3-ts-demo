@@ -41,6 +41,27 @@ export const menusList = [
     icon: 'el-icon-s-operation',
     pid: -1,
   },
+  {
+    id: 7,
+    path: 'test1',
+    title: '测试页面1',
+    icon: 'el-icon-s-operation',
+    pid: 6,
+  },
+  {
+    id: 8,
+    path: 'test2',
+    title: '测试页面2',
+    icon: 'el-icon-s-operation',
+    pid: 6,
+  },
+  {
+    id: 9,
+    icon: 'el-icon-document',
+    path: 'board',
+    title: '看板',
+    pid: -1,
+  },
   // {
   //   // 外链路由
   //   id: 6,

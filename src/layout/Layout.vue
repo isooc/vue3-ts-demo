@@ -65,9 +65,9 @@ export default defineComponent({
     }
     .app-main {
       padding: 1rem;
-      .app-main {
-        min-height: calc(100vh - 50px);
-      }
+      height: calc(100vh - 50px);
+      overflow-y: auto;
+      width: calc(100vw - 240px);
 
       .fade-transform-enter-active,
       .fade-transform-leave-active {
