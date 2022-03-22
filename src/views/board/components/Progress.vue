@@ -2,7 +2,9 @@
   <div class="progress-container">
     <el-card class="system-card">
       <div class="system-item" v-for="(item, index) in systemList" :key="index">
-        <div class="item-header">{{ item.name }}</div>
+        <div class="item-header" :style="{ color: styleAuto.systemColor[index]?.color }">
+          {{ item.name }}
+        </div>
         <div class="item-body">
           <div>工程量：{{ item.quantities }}</div>
           <div>预计进度：{{ item.expectProgress }}</div>
@@ -94,7 +96,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 import Pagination from '@/components/Pagination.vue';
 
 const pageObj = reactive({
@@ -104,9 +106,27 @@ const pageObj = reactive({
 });
 
 const systemList = reactive([
-  { name: '自动喷淋系统', quantities: '1000/10000', expectProgress: '10%', realProgress: '10%' },
-  { name: '室外消火栓系统', quantities: '1000/10000', expectProgress: '10%', realProgress: '10%' },
-  { name: '防排烟系统', quantities: '1000/10000', expectProgress: '10%', realProgress: '10%' },
+  {
+    uri: 1,
+    name: '自动喷淋系统',
+    quantities: '1000/10000',
+    expectProgress: '10%',
+    realProgress: '10%',
+  },
+  {
+    uri: 2,
+    name: '室外消火栓系统',
+    quantities: '1000/10000',
+    expectProgress: '10%',
+    realProgress: '10%',
+  },
+  {
+    uri: 3,
+    name: '防排烟系统',
+    quantities: '1000/10000',
+    expectProgress: '10%',
+    realProgress: '10%',
+  },
 ]);
 
 const queryList = reactive({
@@ -263,6 +283,26 @@ const areaData = reactive([
 const getList = (obj: { page: number; limit: number }) => {
   console.log('obj', obj);
 };
+
+// 动态样式
+const styleAuto = reactive({
+  begin: [252, 0, 255],
+  end: [0, 219, 222],
+  systemColor: [] as any,
+});
+const styleFun = () => {
+  for (let i = 0; i < systemList.length; i++) {
+    let r = styleAuto.begin[0] - ((styleAuto.begin[0] - styleAuto.end[0]) * i) / systemList.length;
+    let g = styleAuto.begin[1] - (styleAuto.begin[1] - styleAuto.end[1] * i) / systemList.length;
+    let b = styleAuto.begin[2] - (styleAuto.begin[2] - styleAuto.end[2] * i) / systemList.length;
+    let rgba = `rgba(${r}, ${g}, ${b})`;
+    styleAuto.systemColor.push({ uri: systemList[i].uri, color: rgba });
+  }
+  console.log('systemColor', styleAuto.systemColor);
+};
+onMounted(() => {
+  styleFun();
+});
 </script>
 
 <style lang="scss" scoped>
